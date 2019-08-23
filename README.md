@@ -1,7 +1,7 @@
-# Packer-Provisioner-Comment
-This is a demonstration provisioner to help teach people how to create and use
-their own Packer plugins.
-
+# Cutting Edge Bubble Text
+packer-provisioner-comment is a demonstration provisioner to help teach people
+how to create and use their own Packer plugins. It uses cutting-edge ascii
+art technology to add fancy bubble text comments to your Packer run output.
 
 ![bubble text](./screenshot.png)
 
