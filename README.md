@@ -2,6 +2,10 @@
 This is a demonstration provisioner to help teach people how to create and use
 their own Packer plugins.
 
+
+![bubble text](./screenshot.png)
+
+
 ## Installation
 
 In order to install the plugin, simply clone the repo and run the following
@@ -29,7 +33,7 @@ In order to test the plugin, create the following test file
     "provisioners": [
         {
           "type": "comment",
-          "comment": "Beginning Provisioning Run",
+          "comment": "Begin",
           "ui": true,
           "fancy": true
         },
@@ -52,7 +56,7 @@ In order to test the plugin, create the following test file
         },
         {
           "type": "comment",
-          "comment": "Ending Provisioning Run",
+          "comment": "End",
           "ui": true,
           "fancy": true
         }
