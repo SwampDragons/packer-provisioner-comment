@@ -20,17 +20,14 @@ type Config struct {
 	ctx interpolate.Context
 }
 
-type Provisioner struct {
+type CommentProvisioner struct {
 	config Config
 }
 
-func (p *Provisioner) Prepare(raws ...interface{}) error {
+func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
 	err := config.Decode(&p.config, &config.DecodeOpts{
 		Interpolate:        true,
 		InterpolateContext: &p.config.ctx,
-		InterpolateFilter: &interpolate.RenderFilter{
-			Exclude: []string{},
-		},
 	}, raws...)
 	if err != nil {
 		return err
@@ -39,7 +36,7 @@ func (p *Provisioner) Prepare(raws ...interface{}) error {
 	return nil
 }
 
-func (p *Provisioner) Provision(_ context.Context, ui packer.Ui, comm packer.Communicator) error {
+func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, comm packer.Communicator) error {
 	if p.config.SendToUi {
 		if p.config.Fancy {
 			myFigure := figure.NewFigure(p.config.Comment, "", false)
