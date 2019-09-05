@@ -36,7 +36,7 @@ In order to test the plugin, create the following test file
           "type": "comment",
           "comment": "Begin",
           "ui": true,
-          "fancy": true
+          "bubble_text": true
         },
         {
           "type": "shell-local",
@@ -59,7 +59,7 @@ In order to test the plugin, create the following test file
           "type": "comment",
           "comment": "End",
           "ui": true,
-          "fancy": true
+          "bubble_text": true
         }
     ]
 }
@@ -77,7 +77,10 @@ really a point to the provisioner if you don't at least set `comment`
 - `ui` (bool): If true, this provisioner will print your comment to the UI. If
   false, this provisioner will do nothing. Default: false
 
-- `fancy` (bool): Only use if `ui` is `true`, if `true`, this provisoner will
+- `bubble_text` (bool): Only use if `ui` is `true`, if `true`, this provisoner will
   print your comment in block letters to the UI. If `false`, won't do any fancy
   formatting and the comment will just appear as a bolded statement. Default:
   `false`
+
+- `packer_say` - Packy, the unlicensed, unofficial (please don't tell
+  Marketing!!) AI Packer friend, will say your comment in the terminal.
