@@ -14,19 +14,20 @@ func CreatePackerFriend(comment string) (string, error) {
 	// be broken into multiple lines.
 
 	PackerSay := `
-      \
-\    |  \
-| \  |    \
-|   \ \     \
-|     \ \     \
-|       \ \     \
-|        | | ◕  ◕*
-|        | |      |
-|        | |      |
-|        | |    o |
-|        | |      |   *{{.Comment}}*
-|        | |   ヮ /  /
-|        |  -___-
+     |\
+     |  \
+\    |    \
+| \  |      \
+|   \ \       \
+|     \ \       \
+|       \ \       \
+|        | | ◕  ◕  *
+|        | |        |
+|        | |    o   |   *{{.Comment}}*
+|        | |        |  /
+|        | |        |
+|        | |   ヮ   /
+|        | |______-
 \        |
   \      |
     \    |
