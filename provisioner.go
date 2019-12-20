@@ -1,3 +1,5 @@
+//go:generate mapstructure-to-hcl2 -type Config
+
 package main
 
 import (
@@ -5,8 +7,10 @@ import (
 	"fmt"
 
 	"github.com/common-nighthawk/go-figure"
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/helper/config"
 	"github.com/hashicorp/packer/packer"
+	"github.com/hashicorp/packer/template/interpolate"
 )
 
 type Config struct {
@@ -14,15 +18,22 @@ type Config struct {
 	SendToUi  bool   `mapstructure:"ui"`
 	Bubble    bool   `mapstructure:"bubble_text"`
 	PackerSay bool   `mapstructure:"packer_say"`
+
+	ctx interpolate.Context
 }
 
 type CommentProvisioner struct {
 	config Config
 }
 
+func (b *CommentProvisioner) ConfigSpec() hcldec.ObjectSpec {
+	return b.config.FlatMapstructure().HCL2Spec()
+}
+
 func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
 	err := config.Decode(&p.config, &config.DecodeOpts{
-		Interpolate: true,
+		Interpolate:        true,
+		InterpolateContext: &p.config.ctx,
 	}, raws...)
 	if err != nil {
 		return err
@@ -35,20 +46,26 @@ func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
 	return nil
 }
 
-func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, _ packer.Communicator) error {
+func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, _ packer.Communicator, generatedData map[string]interface{}) error {
+	p.config.ctx.Data = generatedData
+	comment, err := interpolate.Render(p.config.Comment, &p.config.ctx)
+	if err != nil {
+		return fmt.Errorf("Error interpolating comment: %s", err)
+	}
+
 	if p.config.SendToUi {
 		if p.config.Bubble {
-			myFigure := figure.NewFigure(p.config.Comment, "", false)
+			myFigure := figure.NewFigure(comment, "", false)
 			ui.Say(myFigure.String())
 		} else if p.config.PackerSay {
 			// CreatePackerFriend is being imported from happy_packy.go
-			packyText, err := CreatePackerFriend(p.config.Comment)
+			packyText, err := CreatePackerFriend(comment)
 			if err != nil {
 				return err
 			}
 			ui.Say(packyText)
 		} else {
-			ui.Say(p.config.Comment)
+			ui.Say(comment)
 		}
 
 	}
