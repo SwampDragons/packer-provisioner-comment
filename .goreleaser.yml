@@ -4,6 +4,8 @@ before:
   hooks:
     # You may remove this if you don't use go modules.
     - go mod download
+    - go install github.com/hashicorp/packer/cmd/mapstructure-to-hcl2
+    - go install github.com/hashicorp/packer/cmd/struct-markdown
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
