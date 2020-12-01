@@ -1,6 +1,8 @@
 package main
 
 import (
+	"packer-plugin-comment/comment"
+
 	"github.com/hashicorp/packer/packer/plugin"
 )
 
@@ -10,6 +12,7 @@ func main() {
 		panic(err)
 	}
 
-	server.RegisterProvisioner(new(CommentProvisioner))
+	p := new(comment.Provisioner)
+	server.RegisterProvisioner(p)
 	server.Serve()
 }
