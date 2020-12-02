@@ -1,4 +1,5 @@
 //go:generate mapstructure-to-hcl2 -type Config
+//go:generate struct-markdown
 
 package main
 
@@ -14,10 +15,18 @@ import (
 )
 
 type Config struct {
-	Comment   string `mapstructure:"comment"`
-	SendToUi  bool   `mapstructure:"ui"`
-	Bubble    bool   `mapstructure:"bubble_text"`
-	PackerSay bool   `mapstructure:"packer_say"`
+	// The string you want printed to the UI or to annotate the Packer template
+	Comment string `mapstructure:"comment"`
+	// If true, this provisioner will print your comment to the UI.
+	// If false, this provisioner will do nothing. Default: false
+	SendToUi bool `mapstructure:"ui"`
+	// Only use if `ui` is `true`, if `true`, this provisoner will
+	// print your comment in block letters to the UI. If `false`, won't do any fancy
+	// formatting and the comment will just appear as a bolded statement. Default: `false`
+	Bubble bool `mapstructure:"bubble_text"`
+	// Packy, the unlicensed, unofficial (please don't tell
+	// Marketing!!) AI Packer friend, will say your comment in the terminal.
+	PackerSay bool `mapstructure:"packer_say"`
 
 	ctx interpolate.Context
 }
