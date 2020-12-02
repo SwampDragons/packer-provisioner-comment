@@ -9,7 +9,6 @@ before:
     # Even though, this an optional step.
     - go test ./...
     
-    # We hope plugins are always compatible with the latest version of Packer.
     # If you need a release compatible with a previous version, please update the "latest" tag with that version 
     # to properly check the compatibility.
     - go get github.com/hashicorp/packer@a9e621e1412e7fdfd7dc594f0c62804dd1fc39b0 
@@ -18,7 +17,7 @@ before:
     - go install github.com/hashicorp/packer/cmd/mapstructure-to-hcl2
     - go generate ./...
 
-    # Check if there are hcl2spec code in the repo
+    # Check if there is hcl2spec code in the repo
     - go install github.com/hashicorp/packer/cmd/packer-plugin-check
     - packer-plugin-check -hcl2spec
 
@@ -29,7 +28,7 @@ builds:
     hooks:
       post:
       # This will check plugin compatibility by making sure packer can load the binary
-       - packer-plugin-check -binary {{ .ProjectName }}-{{ .Version }}
+       - packer-plugin-check -binary {{ .ProjectName }}_{{ .Version }}
     flags:
       - -trimpath #removes all file system paths from the compiled executable
     ldflags:
@@ -47,7 +46,7 @@ builds:
     ignore:
       - goos: darwin
         goarch: '386'
-    binary: '{{ .ProjectName }}-{{ .Version }}'
+    binary: '{{ .ProjectName }}_{{ .Version }}'
 archives:
 - format: zip
   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
