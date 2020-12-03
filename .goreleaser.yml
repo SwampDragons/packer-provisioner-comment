@@ -11,7 +11,7 @@ before:
     
     # If you need a release compatible with a previous version, please update the "latest" tag with that version 
     # to properly check the compatibility.
-    - go get github.com/hashicorp/packer@25ee41ffb9a3f270ef243b59f948a97d160eb8fd 
+    - go get github.com/hashicorp/packer@latest 
 
     # You may remove this if you generate these on your own
     - go install github.com/hashicorp/packer/cmd/mapstructure-to-hcl2
