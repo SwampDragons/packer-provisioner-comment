@@ -1,6 +1,6 @@
 //go:generate mapstructure-to-hcl2 -type Config
 
-package main
+package comment
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 
 	"github.com/common-nighthawk/go-figure"
 	"github.com/hashicorp/hcl/v2/hcldec"
-	"github.com/hashicorp/packer/helper/config"
-	"github.com/hashicorp/packer/packer"
-	"github.com/hashicorp/packer/template/interpolate"
+	"github.com/hashicorp/packer/packer-plugin-sdk/packer"
+	"github.com/hashicorp/packer/packer-plugin-sdk/template/config"
+	"github.com/hashicorp/packer/packer-plugin-sdk/template/interpolate"
 )
 
 type Config struct {
@@ -30,15 +30,15 @@ type Config struct {
 	ctx interpolate.Context
 }
 
-type CommentProvisioner struct {
+type Provisioner struct {
 	config Config
 }
 
-func (b *CommentProvisioner) ConfigSpec() hcldec.ObjectSpec {
-	return b.config.FlatMapstructure().HCL2Spec()
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec {
+	return p.config.FlatMapstructure().HCL2Spec()
 }
 
-func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
+func (p *Provisioner) Prepare(raws ...interface{}) error {
 	err := config.Decode(&p.config, &config.DecodeOpts{
 		Interpolate:        true,
 		InterpolateContext: &p.config.ctx,
@@ -54,7 +54,7 @@ func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
 	return nil
 }
 
-func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, _ packer.Communicator, generatedData map[string]interface{}) error {
+func (p *Provisioner) Provision(_ context.Context, ui packer.Ui, _ packer.Communicator, generatedData map[string]interface{}) error {
 	p.config.ctx.Data = generatedData
 	comment, err := interpolate.Render(p.config.Comment, &p.config.ctx)
 	if err != nil {
