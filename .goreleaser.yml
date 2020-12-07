@@ -28,7 +28,7 @@ builds:
     hooks:
       post:
         # This will check plugin compatibility by making sure packer can load the binary
-        - cmd: packer-plugin-check -load
+        - cmd: packer-plugin-check -load={{ .ProjectName }}_{{ .Version }}
           dir: "{{ dir .Path}}"
     flags:
       - -trimpath #removes all file system paths from the compiled executable
@@ -47,7 +47,7 @@ builds:
     ignore:
       - goos: darwin
         goarch: '386'
-    binary: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    binary: '{{ .ProjectName }}_{{ .Version }}'
 archives:
 - format: zip
   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
