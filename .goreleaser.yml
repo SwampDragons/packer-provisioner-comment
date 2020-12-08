@@ -1,5 +1,7 @@
 # This is an example goreleaser.yaml file with some sane defaults.
 # Make sure to check the documentation at http://goreleaser.com
+env:
+  - CGO_ENABLED=0
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -21,14 +23,25 @@ before:
     - go install github.com/hashicorp/packer/cmd/packer-plugin-check
 
 builds:
-  - env:
-      - CGO_ENABLED=0
+  -
+    id: plugin-check
     mod_timestamp: '{{ .CommitTimestamp }}'
     hooks:
       post:
         # This will check plugin compatibility by making sure packer can load the binary
         - cmd: packer-plugin-check -load={{ .Name }}
           dir: "{{ dir .Path}}"
+    flags:
+      - -trimpath #removes all file system paths from the compiled executable
+    ldflags:
+      - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}}'  ## can be useful to set variables 
+    goos:
+      - linux
+    goarch:
+      - amd64
+    binary: '{{ .ProjectName }}_{{ .Version }}'
+  - 
+    mod_timestamp: '{{ .CommitTimestamp }}'
     flags:
       - -trimpath #removes all file system paths from the compiled executable
     ldflags:
@@ -46,6 +59,8 @@ builds:
     ignore:
       - goos: darwin
         goarch: '386'
+      - goos: linux
+        goarch: amd64
     binary: '{{ .ProjectName }}_{{ .Version }}'
 archives:
 - format: zip
