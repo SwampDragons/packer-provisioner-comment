@@ -9,7 +9,7 @@ before:
     # Even though, this an optional step.
     - go test ./...
     
-    # If you need a release compatible with a previous version, please update the "latest" tag with that version 
+    # If you need to release binaries compatible with a previous version, please update the "latest" tag with that version 
     # to properly check the compatibility.
     - go get github.com/hashicorp/packer@latest 
 
@@ -17,9 +17,8 @@ before:
     - go install github.com/hashicorp/packer/cmd/mapstructure-to-hcl2
     - go generate ./...
 
-    # Check if there is hcl2spec code in the repo
+    # Install packer-plugin-check to check binary compatibility with Packer
     - go install github.com/hashicorp/packer/cmd/packer-plugin-check
-    - packer-plugin-check -hcl2spec
 
 builds:
   - env:
