@@ -13,7 +13,7 @@ before:
     
     # If you need to release binaries compatible with a previous version, please update the "latest" tag with that version 
     # to properly check the compatibility.
-    - go get github.com/hashicorp/packer@6aef546ef602dbe0e822c32d60efd19ce310c440 
+    - go get github.com/hashicorp/packer@latest 
 
     # You may remove this if you generate these on your own
     - go install github.com/hashicorp/packer/cmd/mapstructure-to-hcl2
@@ -23,6 +23,7 @@ before:
     - go install github.com/hashicorp/packer/cmd/packer-plugin-check
 
 builds:
+  # A separated build to run the packer-plugin-check only once for a linux_amd64 binary
   -
     id: plugin-check
     mod_timestamp: '{{ .CommitTimestamp }}'
