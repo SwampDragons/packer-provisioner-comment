@@ -4,15 +4,10 @@ env:
   - CGO_ENABLED=0
 before:
   hooks:
-    # You may remove this if you don't use go modules.
-    - go mod download
-
     # We strongly recommend running tests to catch any regression before release. 
     # Even though, this an optional step.
     - go test ./...
 
-    # If you need to release binaries compatible with a previous version, please update the "latest" tag with that version 
-    # to properly check the compatibility.
     - go get github.com/hashicorp/packer@d1ada744e17e6d1e223568653031e21385063c83
 
     # You may remove this if you generate these on your own
@@ -40,7 +35,7 @@ builds:
       - linux
     goarch:
       - amd64
-    binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.API_VERSION }}'
+    binary: '{{ .ProjectName }}_v{{ .Version }}_x{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
   -
     mod_timestamp: '{{ .CommitTimestamp }}'
     flags:
@@ -62,17 +57,17 @@ builds:
         goarch: '386'
       - goos: linux
         goarch: amd64
-    binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.API_VERSION }}'
+    binary: '{{ .ProjectName }}_v{{ .Version }}_x{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
 archives:
   - format: zip
-    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.API_VERSION }}'
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_x{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
 checksum:
-  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Env.API_VERSION }}_SHA256SUMS'
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_x{{ .Env.API_VERSION }}_SHA256SUMS'
   algorithm: sha256
 signs:
   - artifacts: checksum
     args:
-      # if you are using this is in a GitHub action or some other automated pipeline, you 
+      # if you are using this is in a GitHub action or some other automated pipeline, you
       # need to pass the batch flag to indicate its not interactive.
       - "--batch"
       - "--local-user"
