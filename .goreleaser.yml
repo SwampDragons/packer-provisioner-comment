@@ -62,12 +62,12 @@ builds:
         goarch: '386'
       - goos: linux
         goarch: amd64
-    binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_x5'
+    binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.API_VERSION }}'
 archives:
   - format: zip
-    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_x5'
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.API_VERSION }}'
 checksum:
-  name_template: '{{ .ProjectName }}_v{{ .Version }}_SHA256SUMS'
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Env.API_VERSION }}_SHA256SUMS'
   algorithm: sha256
 signs:
   - artifacts: checksum
