@@ -10,7 +10,7 @@ before:
     # Even though, this an optional step.
     - go test ./...
 
-    - go get github.com/hashicorp/packer@d1ada744e17e6d1e223568653031e21385063c83
+    - go get github.com/hashicorp/packer@89fa17ae016adc10824bf3d6edbfc7a4720be3f5
 
     # You may remove this if you generate these on your own
     - go install github.com/hashicorp/packer/cmd/mapstructure-to-hcl2
