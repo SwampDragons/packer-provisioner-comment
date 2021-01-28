@@ -28,7 +28,7 @@ func init() {
 
 func main() {
 	pps := plugin.NewSet()
-	pps.RegisterProvisioner("my-provisioner", new(comment.Provisioner))
+	pps.RegisterProvisioner(plugin.DEFAULT_NAME, new(comment.Provisioner))
 	pps.SetVersion(PluginVersion)
 	err := pps.Run()
 	if err != nil {
