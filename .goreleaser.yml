@@ -4,6 +4,8 @@ env:
   - CGO_ENABLED=0
 before:
   hooks:
+    - go mod download
+
     # We strongly recommend running tests to catch any regression before release. 
     # Even though, this an optional step.
     - go test ./...
@@ -41,7 +43,7 @@ builds:
     flags:
       - -trimpath #removes all file system paths from the compiled executable
     ldflags:
-      - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}}'  ## can be useful to set variables
+      - '-s -w -X main.version={{.Version}} -X main.VersionPrerelease= '  ## can be useful to set variables
     goos:
       - freebsd
       - windows
