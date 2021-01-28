@@ -1,4 +1,4 @@
-//go:generate mapstructure-to-hcl2 -type ProvisionerConfig
+//go:generate mapstructure-to-hcl2 -type PostProcessorConfig
 
 package main
 
@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/packer-plugin-sdk/template/interpolate"
 )
 
-type ProvisionerConfig struct {
+type PostProcessorConfig struct {
 	Comment   string `mapstructure:"comment"`
 	SendToUi  bool   `mapstructure:"ui"`
 	Bubble    bool   `mapstructure:"bubble_text"`
@@ -22,15 +22,15 @@ type ProvisionerConfig struct {
 	ctx interpolate.Context
 }
 
-type CommentProvisioner struct {
-	config ProvisionerConfig
+type PostProcessor struct {
+	config PostProcessorConfig
 }
 
-func (b *CommentProvisioner) ConfigSpec() hcldec.ObjectSpec {
-	return b.config.FlatMapstructure().HCL2Spec()
+func (p *PostProcessor) ConfigSpec() hcldec.ObjectSpec {
+	return p.config.FlatMapstructure().HCL2Spec()
 }
 
-func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
+func (p *PostProcessor) Configure(raws ...interface{}) error {
 	err := config.Decode(&p.config, &config.DecodeOpts{
 		Interpolate:        true,
 		InterpolateContext: &p.config.ctx,
@@ -46,11 +46,10 @@ func (p *CommentProvisioner) Prepare(raws ...interface{}) error {
 	return nil
 }
 
-func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, _ packer.Communicator, generatedData map[string]interface{}) error {
-	p.config.ctx.Data = generatedData
+func (p *PostProcessor) PostProcess(_ context.Context, ui packer.Ui, artifact packer.Artifact) (packer.Artifact, bool, bool, error) {
 	comment, err := interpolate.Render(p.config.Comment, &p.config.ctx)
 	if err != nil {
-		return fmt.Errorf("Error interpolating comment: %s", err)
+		return artifact, true, false, fmt.Errorf("Error interpolating comment: %s", err)
 	}
 
 	if p.config.SendToUi {
@@ -61,7 +60,7 @@ func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, _ packer
 			// CreatePackerFriend is defined in happy_packy.go
 			packyText, err := CreatePackerFriend(comment)
 			if err != nil {
-				return err
+				return artifact, true, false, err
 			}
 			ui.Say(packyText)
 		} else {
@@ -70,5 +69,5 @@ func (p *CommentProvisioner) Provision(_ context.Context, ui packer.Ui, _ packer
 
 	}
 
-	return nil
+	return artifact, true, false, nil
 }
