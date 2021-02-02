@@ -17,7 +17,7 @@ builds:
       post:
         # This will check plugin compatibility by making sure packer can load the binary
         - cmd: |
-            go get github.com/hashicorp/packer@ac014fc1c3a6ae69ea38647c526ee5ae6e386622 &&
+            go get github.com/hashicorp/packer@a59cb8c1c3a19bcb4bdadee11bcca37bc70e4d3e &&
             go install github.com/hashicorp/packer/cmd/packer-plugins-check &&
             packer-plugins-check -load={{ .Name }}
           dir: "{{ dir .Path}}"
