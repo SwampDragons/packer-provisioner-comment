@@ -26,7 +26,7 @@ builds:
     ldflags:
       - '-s -w -X main.Version={{.Version}} -X main.VersionPrerelease= '
     goos:
-      - darwin
+      - linux
     goarch:
       - amd64
     binary: '{{ .ProjectName }}_v{{ .Version }}_{{ .Env.API_VERSION }}_{{ .Os }}_{{ .Arch }}'
