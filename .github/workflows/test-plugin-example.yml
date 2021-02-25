@@ -1,4 +1,4 @@
-name: Runs packer init and build the configuration in the example folder
+name: Packer init and build a configuration example
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         required: false
         default: '0'
       folder:
-        description: 'Custom example folder (defaults to ./example)'
+        description: 'Example folder'
         required: false
         default: './example'
 
@@ -28,13 +28,13 @@ jobs:
       - name: Install packer
         run: go get github.com/hashicorp/packer
 
-      - name: Validate
-        working-directory: ./example
-        run: PACKER_LOG=${{ github.event.inputs.logs }} packer validate .
-
       - name: Init
         working-directory: ./example
         run: packer init .
+
+      - name: Validate
+        working-directory: ./example
+        run: PACKER_LOG=${{ github.event.inputs.logs }} packer validate .
 
       - name: Build
         working-directory: ./example
