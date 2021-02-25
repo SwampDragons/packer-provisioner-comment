@@ -1,0 +1,41 @@
+name: Runs packer init and build the configuration in the example folder
+
+on:
+  workflow_dispatch:
+    inputs:
+      logs:
+        description: 'Set 1 to activate full logs'
+        required: false
+        default: '0'
+      folder:
+        description: 'Custom example folder (defaults to ./example)'
+        required: false
+        default: './example'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: init and build example
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Install packer
+        run: go get github.com/hashicorp/packer
+
+      - name: Validate
+        working-directory: ./example
+        run: PACKER_LOG=${{ github.event.inputs.logs }} packer validate .
+
+      - name: Init
+        working-directory: ./example
+        run: packer init .
+
+      - name: Build
+        working-directory: ./example
+        run: PACKER_LOG=${{ github.event.inputs.logs }} packer build .
