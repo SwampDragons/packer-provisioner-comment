@@ -33,13 +33,13 @@ jobs:
         run: go get github.com/hashicorp/packer@${{ github.event.inputs.packerVersion }}
 
       - name: Init
-        working-directory: ./example
+        working-directory: ${{ github.event.inputs.folder }}
         run: packer init .
 
       - name: Validate
-        working-directory: ./example
+        working-directory: ${{ github.event.inputs.folder }}
         run: PACKER_LOG=${{ github.event.inputs.logs }} packer validate .
 
       - name: Build
-        working-directory: ./example
+        working-directory: ${{ github.event.inputs.folder }}
         run: PACKER_LOG=${{ github.event.inputs.logs }} packer build .
