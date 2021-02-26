@@ -29,14 +29,12 @@ jobs:
         with:
           working_directory: ${{ github.event.inputs.folder }}
           command: init
-          target: .
 
       - name: Validate
         uses: hashicorp/packer-github-actions@document_logs
         with:
           working_directory: ${{ github.event.inputs.folder }}
           command: validate
-          target: .
         env:
           PACKER_LOG: 1
 
@@ -45,6 +43,5 @@ jobs:
         with:
           working_directory: ${{ github.event.inputs.folder }}
           command: build
-          target: .
         env:
           PACKER_LOG: 1
