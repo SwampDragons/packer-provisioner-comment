@@ -11,10 +11,6 @@ on:
         description: 'Example folder'
         required: false
         default: './example'
-      packerVersion:
-        description: 'Packer version'
-        required: false
-        default: 'latest'
 
 jobs:
   build:
@@ -36,7 +32,7 @@ jobs:
           working_directory: ${{ github.event.inputs.folder }}
           command: validate
         env:
-          PACKER_LOG: 1
+          PACKER_LOG: ${{ github.event.inputs.logs }}
 
       - name: Build
         uses: hashicorp/packer-github-actions@document_logs
@@ -44,4 +40,4 @@ jobs:
           working_directory: ${{ github.event.inputs.folder }}
           command: build
         env:
-          PACKER_LOG: 1
+          PACKER_LOG: ${{ github.event.inputs.logs }}
