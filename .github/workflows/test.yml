@@ -1,4 +1,4 @@
-name: test plugin example
+name: test packer-github-action
 
 on:
   workflow_dispatch:
@@ -27,14 +27,14 @@ jobs:
       - name: Init
         uses: hashicorp/packer-github-actions@document_logs
         with:
-          working-directory: ${{ github.event.inputs.folder }}
+          working_directory: ${{ github.event.inputs.folder }}
           command: init
           target: .
 
       - name: Validate
         uses: hashicorp/packer-github-actions@document_logs
         with:
-          working-directory: ${{ github.event.inputs.folder }}
+          working_directory: ${{ github.event.inputs.folder }}
           command: validate
           target: .
         env:
@@ -43,7 +43,7 @@ jobs:
       - name: Build
         uses: hashicorp/packer-github-actions@document_logs
         with:
-          working-directory: ${{ github.event.inputs.folder }}
+          working_directory: ${{ github.event.inputs.folder }}
           command: build
           target: .
         env:
