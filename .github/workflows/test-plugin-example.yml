@@ -1,4 +1,8 @@
-name: test packer-github-action
+# This is a manually triggered action workflow.
+# It uses Packer at latest version to init, validate and build
+# an example configuration in a folder.
+# This action is compatible with Packer v1.7.0 or later.
+name: test plugin example
 
 on:
   workflow_dispatch:
