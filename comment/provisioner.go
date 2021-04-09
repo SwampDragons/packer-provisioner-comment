@@ -7,22 +7,22 @@ import (
 	"fmt"
 
 	"github.com/common-nighthawk/go-figure"
-	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/packer"
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer-plugin-sdk/template/config"
 	"github.com/hashicorp/packer-plugin-sdk/template/interpolate"
 )
 
 type Config struct {
 	// The string you want printed to the UI or to annotate the Packer template
-	Comment string `mapstructure:"comment"`
+	Comment    string `mapstructure:"comment"`
 	// If true, this provisioner will print your comment to the UI.
 	// If false, this provisioner will do nothing. Default: false
 	SendToUi bool `mapstructure:"ui"`
 	// Only use if `ui` is `true`, if `true`, this provisoner will
 	// print your comment in block letters to the UI. If `false`, won't do any fancy
 	// formatting and the comment will just appear as a bolded statement. Default: `false`
-	Bubble bool `mapstructure:"bubble_text"`
+	Bubble     bool `mapstructure:"bubble_text"`
 	// Packy, the unlicensed, unofficial (please don't tell
 	// Marketing!!) AI Packer friend, will say your comment in the terminal.
 	PackerSay bool `mapstructure:"packer_say"`
